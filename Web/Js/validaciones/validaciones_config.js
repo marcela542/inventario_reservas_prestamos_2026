@@ -146,7 +146,6 @@ function validarEditarMarca(event) {
 // =======================================
 //FUNCIONES DE VALIDACIÓN PARA ÁREAS DESTINO
 // =======================================
-
 function validarNombreArea(input) {
     const errorDiv = document.getElementById('error_nombre_area');
     const valor = input.value.trim();
@@ -464,10 +463,6 @@ function validarRol(event) {
 // ================================
 // VALIDACIONES PARA EDITAR ROL
 // ================================
-// ================================
-// VALIDACIONES PARA EDITAR ROL
-// ================================
-
 function validarNombreRolEditar(input) {
     const errorDiv = document.getElementById("error_rol_nombre");
     const valor = input.value.trim();

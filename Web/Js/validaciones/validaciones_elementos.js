@@ -8,41 +8,33 @@ vacíos, pero **ignora** los que pertenezcan a un
 bloque (#grupoDevolutivo o #grupoNoDevolutivo)
 que está oculto con la clase d-none.
 ────────────────────────────────────────────── */
-function validarCamposVacios(form) {
-    let valido = true;
-
-    /* toma todos los campos con atributo required */
-    const inputs = form.querySelectorAll('[required]');
+function validarCamposVacios() {
+    const inputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+    let formularioValido = true;
 
     inputs.forEach(input => {
-
-        /* 1. Si está deshabilitado => ignóralo.             */
         if (input.disabled) return;
 
-        /* 2. Si su bloque padre está oculto (d‑none) => ignóralo. */
-        const grupoDev = input.closest('#grupoDevolutivo');
-        const grupoNo  = input.closest('#grupoNoDevolutivo');
+        //Ignora si el campo está en un div oculto con .d-none
+        const bloqueOculto = input.closest('.d-none');
+        if (bloqueOculto) return;
 
-        if ( (grupoDev && grupoDev.classList.contains('d-none')) ||
-            (grupoNo  && grupoNo.classList.contains('d-none')) ) {
-            return;
-        }
-
-        /* 3. Validar realmente el campo */
-        const errorBox = document.getElementById('error' + input.name);
-        const vacio    = input.value.trim() === '' || input.value === '0';
+        const valor = input.value.trim();
+        const vacio = valor === '';
+        const errorId = 'error' + input.name;
+        const errorElement = document.getElementById(errorId);
 
         if (vacio) {
-            errorBox && (errorBox.textContent = 'Este campo es obligatorio.');
-            input.classList.add('is-invalid');
-            valido = false;
+            input.classList.add("is-invalid");
+            if (errorElement) errorElement.textContent = "Este campo es obligatorio.";
+            formularioValido = false;
         } else {
-            errorBox && (errorBox.textContent = '');
-            input.classList.remove('is-invalid');
+            input.classList.remove("is-invalid");
+            if (errorElement) errorElement.textContent = '';
         }
     });
 
-    return valido;          // true si todo está OK
+    return formularioValido;
 }
 
 //validacion placa de elemento

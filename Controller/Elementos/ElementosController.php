@@ -50,6 +50,7 @@ class ElementosController
 
         require_once 'C:\xampp\htdocs\inventario\Views\Elementos\insert.php';
     }
+    
 
     // ==============================
     // GUARDAR UN NUEVO ELEMENTO

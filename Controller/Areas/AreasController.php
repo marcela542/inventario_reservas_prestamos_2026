@@ -11,9 +11,9 @@ class AreasController
     // ====================================
     // CONSTRUCTOR
     // ====================================
-    public function __construct()
+    public function __construct()//el constructor crea una instancia del modelo para usarla en el controlador
     {
-        $this->model = new AreasModel();
+        $this->model = new AreasModel();//crea una instancia del modelo
     }
 
     // ====================================
@@ -46,11 +46,11 @@ class AreasController
     // ====================================
     public function postInsert()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nombre = trim($_POST['area_nombre'] ?? '');
-            $descripcion = trim($_POST['area_descripcion'] ?? '');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {// funcion que maneja la lógica para insertar una nueva área, verifica si el método de la solicitud es POST
+            $nombre = trim($_POST['area_nombre'] ?? '');//obtiene y limpia el nombre del área del formulario, limpiar es eliminar espacios en blanco al inicio y al final
+            $descripcion = trim($_POST['area_descripcion'] ?? '');//obtiene y limpia la descripción del área del formulario
 
-            if ($nombre !== '') {
+            if ($nombre !== '') {// si nombre no está vacío hace lo siguiente
                 // Validar si ya existe
                 if ($this->model->existeNombreArea($nombre)) {
                     $this->showSweetAlert(

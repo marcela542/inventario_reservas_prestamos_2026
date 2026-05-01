@@ -1,39 +1,349 @@
-<div class="container mt-5">
-    <div class="card shadow border-0">
-        <div class="card-body">
-            <h4 class="fw-bold text-success text-center mb-4">
-                <i class='bx bx-package'></i> Listado de Usuarios
-            </h4>
+<!-- =====================================
+     Archivo: Listado de Usuarios
+     Estilo: Azul marino minimalista (mismo sistema)
+====================================== -->
 
-            <!-- Filtro, busqueda y exportacion a excel -->
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
-                <div class="input-group" style="max-width: 220px;">
-                    <label class="input-group-text bg-success text-white" for="filtroTipo">
-                        <i class='bx bx-filter-alt'></i>
-                    </label>
-                    <select id="filtroTipo" class="form-select">
+<!-- ===== FONDO DECORATIVO SVG ===== -->
+<svg style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <radialGradient id="rg1" cx="85%" cy="5%" r="50%">
+            <stop offset="0%" stop-color="#c5d4f5" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#e8eef8" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="rg2" cx="5%" cy="95%" r="50%">
+            <stop offset="0%" stop-color="#b8cef5" stop-opacity=".6"/>
+            <stop offset="100%" stop-color="#e8eef8" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="rg3" cx="50%" cy="50%" r="40%">
+            <stop offset="0%" stop-color="#dce6fa" stop-opacity=".35"/>
+            <stop offset="100%" stop-color="#e8eef8" stop-opacity="0"/>
+        </radialGradient>
+        <pattern id="dotpat" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="#3c56c7" fill-opacity=".07"/>
+        </pattern>
+    </defs>
+    <rect width="1440" height="900" fill="url(#rg1)"/>
+    <rect width="1440" height="900" fill="url(#rg2)"/>
+    <rect width="1440" height="900" fill="url(#rg3)"/>
+    <rect width="1440" height="900" fill="url(#dotpat)"/>
+    <circle cx="1340" cy="100" r="220" fill="none" stroke="#3c56c7" stroke-width="1" stroke-opacity=".1"/>
+    <circle cx="1340" cy="100" r="150" fill="none" stroke="#3c56c7" stroke-width="1" stroke-opacity=".08"/>
+    <circle cx="1340" cy="100" r="80"  fill="#3c56c7" fill-opacity=".05"/>
+    <circle cx="80"   cy="820" r="180" fill="none" stroke="#0d3087" stroke-width="1" stroke-opacity=".09"/>
+    <circle cx="80"   cy="820" r="110" fill="#0d3087" fill-opacity=".05"/>
+    <circle cx="100"  cy="400" r="90"  fill="none" stroke="#3c56c7" stroke-width="1" stroke-opacity=".07"/>
+    <line x1="0" y1="100" x2="150" y2="0"   stroke="#3c56c7" stroke-width="1" stroke-opacity=".09"/>
+    <line x1="0" y1="160" x2="210" y2="0"   stroke="#3c56c7" stroke-width="1" stroke-opacity=".06"/>
+    <line x1="0" y1="220" x2="270" y2="0"   stroke="#3c56c7" stroke-width="1" stroke-opacity=".04"/>
+    <line x1="1440" y1="700" x2="1240" y2="900" stroke="#0d3087" stroke-width="1" stroke-opacity=".08"/>
+    <line x1="1440" y1="760" x2="1300" y2="900" stroke="#0d3087" stroke-width="1" stroke-opacity=".06"/>
+    <rect x="40"   y="40"  width="44" height="44" rx="10" fill="none" stroke="#3c56c7" stroke-width="1.5" stroke-opacity=".12"/>
+    <rect x="54"   y="54"  width="16" height="16" rx="4"  fill="#3c56c7" fill-opacity=".09"/>
+    <rect x="1356" y="816" width="44" height="44" rx="10" fill="none" stroke="#0d3087" stroke-width="1.5" stroke-opacity=".1"/>
+    <circle cx="220"  cy="70"  r="3"   fill="#3c56c7" fill-opacity=".18"/>
+    <circle cx="255"  cy="105" r="2"   fill="#3c56c7" fill-opacity=".13"/>
+    <circle cx="1200" cy="820" r="3"   fill="#3c56c7" fill-opacity=".18"/>
+</svg>
+
+<style>
+    body { background: #e8eef8; }
+
+    /* ===== CARD ===== */
+    .usu-card {
+        background: #ffffff;
+        border-radius: 18px;
+        border: none;
+        box-shadow: 0 8px 40px rgba(13,48,135,.13);
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+    }
+
+    .usu-card::before {
+        content: '';
+        display: block;
+        height: 4px;
+        background: linear-gradient(90deg, #0d3087, #3c56c7, #6c83e0);
+    }
+
+    /* ===== HEADER ===== */
+    .usu-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 1.4rem 1.8rem 0.6rem;
+    }
+
+    .usu-header-icon {
+        width: 46px; height: 46px;
+        background: #eef1fb;
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .usu-header-icon i { font-size: 22px; color: #3c56c7; }
+
+    .usu-header-text h4 {
+        font-size: 17px; font-weight: 700;
+        color: #0d3087; margin: 0;
+        font-family: 'Syne', sans-serif;
+    }
+
+    .usu-header-text p { font-size: 12.5px; color: #94a3b8; margin: 2px 0 0; }
+
+    .usu-divider { height: 1px; background: #e8edf6; margin: 0.4rem 1.8rem 1rem; }
+    .usu-body    { padding: 0 1.8rem 1.8rem; }
+
+    /* ===== TOOLBAR ===== */
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 1.2rem;
+        background: #f5f8ff;
+        border: 1.5px solid #e2e9f8;
+        border-radius: 12px;
+        padding: 0.85rem 1.1rem;
+    }
+
+    .toolbar-left  { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .toolbar-right { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .tb-select, .tb-input {
+        border: 1.5px solid #d6e0fa;
+        border-radius: 9px;
+        padding: 8px 13px;
+        font-size: 13px;
+        color: #2d4080;
+        background: #ffffff;
+        background-color: #ffffff;
+        color-scheme: light;
+        outline: none;
+        font-family: inherit;
+        transition: border-color .2s;
+    }
+
+    .tb-select:focus, .tb-input:focus {
+        border-color: #3c56c7;
+        box-shadow: 0 0 0 3px rgba(60,86,199,.08);
+    }
+
+    .tb-input::placeholder { color: #a8b8d8; }
+    .tb-select { min-width: 190px; }
+    .tb-input  { min-width: 220px; }
+
+    .btn-nuevo {
+        background: #3c56c7; background-color: #3c56c7;
+        color: #fff; border: none; border-radius: 9px;
+        padding: 8px 18px; font-size: 13px; font-weight: 600;
+        cursor: pointer; display: inline-flex; align-items: center;
+        gap: 6px; text-decoration: none; transition: background .2s;
+        font-family: inherit;
+    }
+    .btn-nuevo:hover { background: #2d44b0; background-color: #2d44b0; color: #fff; }
+
+    .btn-excel {
+        background: #f0f4ff; background-color: #f0f4ff;
+        color: #3d5a99; border: 1.5px solid #d6e0fa;
+        border-radius: 9px; padding: 8px 16px; font-size: 13px;
+        font-weight: 500; cursor: pointer; display: inline-flex;
+        align-items: center; gap: 6px;
+        transition: background .2s, border-color .2s;
+        font-family: inherit;
+    }
+    .btn-excel:hover { background: #e2ebff; background-color: #e2ebff; border-color: #b8c8ec; color: #1e2a45; }
+
+    /* ===== TABLA ===== */
+    .usu-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+
+    .usu-table thead tr { background: #0d3087; }
+    .usu-table thead th {
+        color: #ffffff; font-weight: 600; font-size: 12.5px;
+        letter-spacing: .03em; padding: 11px 14px;
+        text-align: center; border: none;
+    }
+
+    .usu-table tbody tr { border-bottom: 1px solid #edf1fa; transition: background .15s; }
+    .usu-table tbody tr:hover { background: #f5f8ff; }
+    .usu-table tbody td {
+        padding: 10px 14px; text-align: center;
+        color: #2d4080; vertical-align: middle; border: none;
+    }
+
+    /* ===== BADGES ESTADO ===== */
+    .badge-activo {
+        background: #e6f4ec; color: #1a7a42;
+        border: 1px solid #a8dbb9; border-radius: 6px;
+        padding: 3px 14px; font-size: 11.5px; font-weight: 600;
+        cursor: pointer; border: none; display: inline-block;
+        transition: opacity .15s;
+    }
+    .badge-activo:hover { opacity: .8; }
+
+    .badge-inactivo {
+        background: #f0f0f0; color: #555;
+        border: 1px solid #ccc; border-radius: 6px;
+        padding: 3px 14px; font-size: 11.5px; font-weight: 600;
+        cursor: pointer; border: none; display: inline-block;
+        transition: opacity .15s;
+    }
+    .badge-inactivo:hover { opacity: .8; }
+
+    /* ===== BOTONES ACCIÓN ===== */
+    .btn-accion {
+        width: 32px; height: 32px; border-radius: 8px; border: none;
+        cursor: pointer; display: inline-flex; align-items: center;
+        justify-content: center; font-size: 15px; text-decoration: none;
+        transition: opacity .15s, transform .1s;
+    }
+    .btn-accion:hover  { opacity: .82; transform: scale(1.07); }
+    .btn-accion:active { transform: scale(.96); }
+
+    .btn-editar { background: #fff8e0; color: #a06000; }
+    .btn-ver    { background: #e0f0ff; color: #1565c0; }
+
+    /* ===== PAGINACIÓN ===== */
+    .pag-wrap { display: flex; justify-content: center; margin-top: 1.2rem; }
+    #paginacionTabla { display: flex; gap: 4px; list-style: none; padding: 0; margin: 0; }
+
+    #paginacionTabla .page-item .page-link {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-width: 34px; height: 34px; border-radius: 8px;
+        border: 1.5px solid #d6e0fa; background: #f5f8ff;
+        color: #3c56c7; font-size: 13px; font-weight: 500;
+        text-decoration: none; transition: background .15s, border-color .15s;
+    }
+    #paginacionTabla .page-item.active .page-link {
+        background: #3c56c7; background-color: #3c56c7;
+        border-color: #3c56c7; color: #ffffff;
+    }
+    #paginacionTabla .page-item.disabled .page-link { opacity: .4; pointer-events: none; }
+    #paginacionTabla .page-item .page-link:hover { background: #e2ebff; border-color: #b8c8ec; }
+
+    /* ===== MODAL ===== */
+    .modal-content {
+        border-radius: 14px !important;
+        overflow: hidden;
+        border: none !important;
+        box-shadow: 0 8px 40px rgba(13,48,135,.18) !important;
+    }
+
+    .modal-header-inv {
+        background: linear-gradient(135deg, #0d3087 0%, #3c56c7 100%);
+        color: #ffffff;
+        padding: 1rem 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .modal-header-inv h5 {
+        font-size: 15px; font-weight: 700;
+        margin: 0; color: #fff;
+        font-family: 'Syne', sans-serif;
+        display: flex; align-items: center; gap: 8px;
+    }
+
+    .modal-body-inv {
+        padding: 1.4rem;
+    }
+
+    .modal-body-inv .form-label {
+        font-size: 12.5px; font-weight: 600; color: #3d5a99;
+    }
+
+    .modal-body-inv .form-control,
+    .modal-body-inv .form-floating .form-control {
+        border: 1.5px solid #d6e0fa;
+        border-radius: 9px;
+        font-size: 13.5px;
+        color: #2d4080;
+        background: #f5f8ff;
+        background-color: #f5f8ff;
+    }
+
+    .modal-body-inv .form-control:focus {
+        border-color: #3c56c7;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(60,86,199,.1);
+        outline: none;
+    }
+
+    .modal-footer-inv {
+        border-top: 1px solid #e8edf6;
+        padding: 0.85rem 1.4rem;
+        display: flex; justify-content: flex-end; gap: 8px;
+        background: #fafbff;
+    }
+
+    .btn-modal-ok {
+        background: #3c56c7; background-color: #3c56c7;
+        color: #fff; border: none; border-radius: 9px;
+        padding: 9px 22px; font-size: 13.5px; font-weight: 600;
+        cursor: pointer; font-family: inherit;
+        display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-modal-ok:hover { background: #2d44b0; background-color: #2d44b0; }
+
+    .btn-modal-cancel {
+        background: #f0f4ff; background-color: #f0f4ff;
+        color: #3d5a99; border: 1.5px solid #d6e0fa;
+        border-radius: 9px; padding: 9px 18px; font-size: 13.5px;
+        font-weight: 500; cursor: pointer; font-family: inherit;
+        display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-modal-cancel:hover { background: #e2ebff; background-color: #e2ebff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 576px) {
+        .usu-body   { padding: 0 1rem 1.2rem; }
+        .usu-header { padding: 1.2rem 1rem 0.4rem; }
+        .usu-divider{ margin: 0.4rem 1rem 0.8rem; }
+        .toolbar { flex-direction: column; align-items: flex-start; }
+        .tb-select, .tb-input { width: 100%; }
+        .toolbar-right { width: 100%; }
+        .btn-nuevo, .btn-excel { width: 100%; justify-content: center; }
+    }
+</style>
+
+<div class="container mt-4 mb-5" style="position:relative;z-index:1;">
+    <div class="usu-card">
+
+        <!-- Header -->
+        <div class="usu-header">
+            <div class="usu-header-icon">
+                <i class='bx bx-group'></i>
+            </div>
+            <div class="usu-header-text">
+                <h4>Listado de Usuarios</h4>
+                <p>Consulta, filtra y gestiona todos los usuarios registrados</p>
+            </div>
+        </div>
+
+        <div class="usu-divider"></div>
+
+        <div class="usu-body">
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <select id="filtroTipo" class="tb-select">
                         <option value="codigo">Por N° Documento</option>
                         <option value="nombre">Por Nombre</option>
                         <option value="correo">Por Correo</option>
                         <option value="telefono">Por Teléfono</option>
                         <option value="rol">Por Rol</option>
                     </select>
+                    <input type="search" id="buscadorUsuarios" class="tb-input" placeholder="Buscar..." aria-label="Buscar">
                 </div>
-
-                <div class="input-group" style="max-width: 300px;">
-                    <span class="input-group-text bg-success text-white">
-                        <i class='bx bx-search'></i>
-                    </span>
-                    <input type="search" id="buscadorUsuarios" class="form-control" placeholder="Buscar..." aria-label="Buscar">
-                </div>
-
-                <!-- Agrupa los botones aquí -->
-                <div class="d-flex gap-2">
-                    <a href="<?= getUrl('usuarios', 'usuarios', 'getInsert'); ?>" class="btn btn-success">
-                        <i class='bx bx-user-plus'></i> Registrar Nuevo Usuario
+                <div class="toolbar-right">
+                    <a href="<?= getUrl('usuarios', 'usuarios', 'getInsert'); ?>" class="btn-nuevo">
+                        <i class='bx bx-user-plus'></i> Nuevo Usuario
                     </a>
-                    <!-- Botón para exportar a Excel -->
-                    <button id="btnExportarExcelUsuarios" class="btn btn-outline-success" type="button">
+                    <button id="btnExportarExcelUsuarios" class="btn-excel" type="button">
                         <i class='bx bxs-file-export'></i> Exportar Excel
                     </button>
                 </div>
@@ -41,12 +351,12 @@
 
             <!-- Tabla -->
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-center" id="tablaUsuarios">
-                    <thead class="table-dark">
+                <table class="usu-table" id="tablaUsuarios">
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Tipo Documento</th>
-                            <th>Numero de Documento</th>
+                            <th>N° Documento</th>
                             <th>Nombre Completo</th>
                             <th>Correo</th>
                             <th>Teléfono</th>
@@ -62,23 +372,25 @@
                                     <td><?= $usuario['usu_id']; ?></td>
                                     <td><?= $usuario['tipo_docu_nombre']; ?></td>
                                     <td><?= $usuario['usu_numero_docu']; ?></td>
-                                    <td><?= $usuario['usu_nombre'] . ' ' . $usuario['usu_apellido']; ?></td>
+                                    <td style="text-align:left;font-weight:500;"><?= $usuario['usu_nombre'] . ' ' . $usuario['usu_apellido']; ?></td>
                                     <td><?= $usuario['usu_email']; ?></td>
                                     <td><?= $usuario['usu_telefono']; ?></td>
                                     <td><?= $usuario['rol_nombre']; ?></td>
-                                    <td class="text-center">
-                                        <?php if ($usuario['estado_nombre'] == 'Activo'): ?><!-- Si el estado es Activo, mostrar botón para cambiar a Inactivo -->
-                                            <button class="btn btn-success btn-sm" onclick="abrirModalClave(<?= $usuario['usu_id']; ?>, 'Inactivo')">Activo</button><!-- Botón para cambiar a Inactivo -->
+                                    <td>
+                                        <?php if ($usuario['estado_nombre'] == 'Activo'): ?>
+                                            <button class="badge-activo" onclick="abrirModalClave(<?= $usuario['usu_id']; ?>, 'Inactivo')">Activo</button>
                                         <?php else: ?>
-                                            <button class="btn btn-secondary btn-sm" onclick="abrirModalClave(<?= $usuario['usu_id']; ?>, 'Activo')">Inactivo</button><!-- Si el estado es Inactivo, mostrar botón para cambiar a Activo -->
+                                            <button class="badge-inactivo" onclick="abrirModalClave(<?= $usuario['usu_id']; ?>, 'Activo')">Inactivo</button>
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a href="<?= getUrl('usuarios', 'usuarios', 'getEdit', ['id' => $usuario['usu_id']]); ?>" class="btn btn-sm btn-warning" title="Editar">
+                                        <div style="display:flex;justify-content:center;gap:6px;">
+                                            <a href="<?= getUrl('usuarios', 'usuarios', 'getEdit', ['id' => $usuario['usu_id']]); ?>"
+                                               class="btn-accion btn-editar" title="Editar">
                                                 <i class='bx bx-edit-alt'></i>
                                             </a>
-                                            <a href="<?= getUrl('usuarios', 'usuarios', 'ver', ['id' => $usuario['usu_id']]); ?>" class="btn btn-sm btn-info" title="Ver Detalle">
+                                            <a href="<?= getUrl('usuarios', 'usuarios', 'ver', ['id' => $usuario['usu_id']]); ?>"
+                                               class="btn-accion btn-ver" title="Ver Detalle">
                                                 <i class='bx bx-show'></i>
                                             </a>
                                         </div>
@@ -87,297 +399,195 @@
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="8" class="text-center">No hay usuarios registrados.</td>
+                                <td colspan="9" style="color:#94a3b8;padding:2rem;text-align:center;">
+                                    <i class='bx bx-user-x' style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;"></i>
+                                    No hay usuarios registrados.
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Modal de Validación de Clave -->
-            <div class="modal fade" id="modalClaveUsu" tabindex="-1" aria-labelledby="modalClaveUsuLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <form method="POST"
-                        action="<?= getUrl('usuarios', 'usuarios', 'cambiarEstadoConClave') ?>"
-                        class="modal-content rounded-4 shadow-lg overflow-hidden">
-
-                        <!-- Cabecera con degradado e icono -->
-                        <div class="modal-header py-3 text-white"
-                            style="background:linear-gradient(135deg,#0d6efd 0%,#0a58ca 100%);">
-                            <h5 class="modal-title d-flex align-items-center gap-2 mb-0" id="modalClaveUsuLabel">
-                            <i class="bi bi-shield-lock-fill fs-4"></i>
-                            Confirmar cambio de estado
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                        </div>
-
-                        <!-- Cuerpo -->
-                        <div class="modal-body">
-                            <p class="mb-3">Ingrese su contraseña para confirmar el cambio de estado del usuario.</p>
-
-                            <div class="form-floating">
-                            <input type="password" name="clave" class="form-control" id="claveModal"
-                                    placeholder="Contraseña" required>
-                            <label for="claveModal"><i class="bi bi-key"></i> Contraseña</label>
-                            </div>
-
-                            <!-- Ocultos -->
-                            <input type="hidden" name="usuario_id" id="usuarioId">
-                            <input type="hidden" name="nuevo_estado" id="nuevoEstado">
-                        </div>
-
-                        <!-- Pie -->
-                        <div class="modal-footer bg-light border-top-0">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            <i class="bi bi-x-lg"></i> Cancelar
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-lg"></i> Confirmar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
             <!-- Paginación -->
-            <div class="d-flex justify-content-center mt-4">
-                <nav>
-                    <ul class="pagination" id="paginacionTabla"></ul>
-                </nav>
+            <div class="pag-wrap">
+                <nav><ul class="pagination" id="paginacionTabla"></ul></nav>
             </div>
-            <!-- Importar librería para exportar a Excel -->
-            <!-- Esta libreria permite exportar tablas HTML a archivos Excel -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
         </div>
     </div>
 </div>
 
-<!-- JS para exportar a Excel -->
-<script>
-// Función para exportar la tabla a Excel
-document.getElementById('btnExportarExcelUsuarios').addEventListener('click', function () {
-    const tabla = document.getElementById('tablaUsuarios');// Obtener la tabla
-    const filas = Array.from(tabla.querySelectorAll('tbody tr'));// Convertir las filas de la tabla en un array
-    const filasExportar = [];// Array para almacenar las filas a exportar
+<!-- ===== MODAL VALIDACIÓN DE CLAVE ===== -->
+<div class="modal fade" id="modalClaveUsu" tabindex="-1" aria-labelledby="modalClaveUsuLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form method="POST" action="<?= getUrl('usuarios', 'usuarios', 'cambiarEstadoConClave') ?>" class="modal-content">
+            <div class="modal-header-inv">
+                <h5 id="modalClaveUsuLabel">
+                    <i class='bx bx-shield-alt-2'></i> Confirmar cambio de estado
+                </h5>
+                <button type="button" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;" data-bs-dismiss="modal" aria-label="Cerrar">×</button>
+            </div>
+            <div class="modal-body-inv">
+                <p style="font-size:13px;color:#64748b;margin-bottom:1rem;">
+                    Ingresa tu contraseña para confirmar el cambio de estado del usuario.
+                </p>
+                <label class="form-label" for="claveModal">Contraseña</label>
+                <input type="password" name="clave" class="form-control" id="claveModal"
+                       placeholder="Escribe tu contraseña" required>
+                <input type="hidden" name="usuario_id" id="usuarioId">
+                <input type="hidden" name="nuevo_estado" id="nuevoEstado">
+            </div>
+            <div class="modal-footer-inv">
+                <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">
+                    <i class='bx bx-x'></i> Cancelar
+                </button>
+                <button type="submit" class="btn-modal-ok">
+                    <i class='bx bx-check'></i> Confirmar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
-    // Agregar los encabezados de la tabla
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<!-- JS exportar Excel -->
+<script>
+document.getElementById('btnExportarExcelUsuarios').addEventListener('click', function () {
+    const tabla = document.getElementById('tablaUsuarios');
+    const filas = Array.from(tabla.querySelectorAll('tbody tr'));
+    const filasExportar = [];
+
     const headers = [];
     tabla.querySelectorAll('thead th').forEach((th, index) => {
-        if (index < 8) { // hay 9 columnas (0 a 8), excluimos la última
-            headers.push(th.innerText);
-        }
+        if (index < 8) headers.push(th.innerText);
     });
     filasExportar.push(headers);
 
-    // Obtener el filtro y búsqueda actual
     const inputBusqueda = document.getElementById('buscadorUsuarios');
-    const filtroTipo = document.getElementById('filtroTipo');
+    const filtroTipo    = document.getElementById('filtroTipo');
     const valor = inputBusqueda.value.toLowerCase().trim();
-    const tipo = filtroTipo.value;
+    const tipo  = filtroTipo.value;
 
-    // Filtrar todas las filas según el filtro y búsqueda
     const filtradas = filas.filter(fila => {
         const celdas = fila.cells;
-        const [codigo, nombre, correo, telefono, rol] = [
-                    celdas[2].textContent.toLowerCase(), // Numero de Documento
-                    celdas[3].textContent.toLowerCase(), // Nombre Completo
-                    celdas[4].textContent.toLowerCase(), // Correo
-                    celdas[5].textContent.toLowerCase(), // Teléfono
-                    celdas[6].textContent.toLowerCase(), // Rol
-        ];
-        // Aplica el filtro según el tipo elegido
+        const codigo   = celdas[2]?.textContent.toLowerCase() ?? '';
+        const nombre   = celdas[3]?.textContent.toLowerCase() ?? '';
+        const correo   = celdas[4]?.textContent.toLowerCase() ?? '';
+        const telefono = celdas[5]?.textContent.toLowerCase() ?? '';
+        const rol      = celdas[6]?.textContent.toLowerCase() ?? '';
         switch (tipo) {
-                    case 'codigo':
-                        return codigo.includes(valor);
-                    case 'nombre':
-                        return nombre.includes(valor);
-                    case 'correo':
-                        return correo.includes(valor);
-                    case 'telefono':
-                        return telefono.includes(valor);
-                    case 'rol':
-                        return rol.includes(valor);
-                    default:
-                        return true;
-        }        
+            case 'codigo':   return codigo.includes(valor);
+            case 'nombre':   return nombre.includes(valor);
+            case 'correo':   return correo.includes(valor);
+            case 'telefono': return telefono.includes(valor);
+            case 'rol':      return rol.includes(valor);
+            default:         return true;
+        }
     });
 
-    // Agregar todas las filas filtradas SIN la columna "Acciones"
     filtradas.forEach(fila => {
         const row = [];
         fila.querySelectorAll('td').forEach((td, index) => {
-            if (index < 8) { // ignoramos la última columna
-                let texto = td.textContent.replace(/\s+/g, ' ').trim();
-                row.push(texto);
-            }
+            if (index < 8) row.push(td.textContent.replace(/\s+/g, ' ').trim());
         });
         filasExportar.push(row);
     });
 
-    // Crear hoja y libro
-    const ws = XLSX.utils.aoa_to_sheet(filasExportar);// Convertir el array de filas a una hoja de Excel
+    const ws = XLSX.utils.aoa_to_sheet(filasExportar);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Usuarios");// Agregar la hoja al libro
-    
-
-    // Descargar
-    XLSX.writeFile(wb, "usuarios_filtrados.xlsx");// Descargar el archivo Excel
+    XLSX.utils.book_append_sheet(wb, ws, "Usuarios");
+    XLSX.writeFile(wb, "usuarios_filtrados.xlsx");
 });
 </script>
 
-<!-- JS Este script maneja el modal para cambio de estado -->
+<!-- JS modal cambio estado -->
 <script>
-    function abrirModalClave(id, estado) {
-        document.getElementById('usuarioId').value = id;
-        document.getElementById('nuevoEstado').value = estado;
-        const modal = new bootstrap.Modal(document.getElementById('modalClaveUsu'));
-        modal.show();
-    }
+function abrirModalClave(id, estado) {
+    document.getElementById('usuarioId').value  = id;
+    document.getElementById('nuevoEstado').value = estado;
+    const modal = new bootstrap.Modal(document.getElementById('modalClaveUsu'));
+    modal.show();
+}
 </script>
 
 <!-- JS búsqueda + paginación -->
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Elementos del DOM
-        const inputBusqueda = document.getElementById('buscadorUsuarios'); // Input para escribir la búsqueda
-        const filtroTipo = document.getElementById('filtroTipo'); // Select para elegir el tipo de filtro
-        const tabla = document.getElementById('tablaUsuarios').getElementsByTagName('tbody')[0]; // Cuerpo de la tabla
-        const paginacion = document.getElementById('paginacionTabla'); // Contenedor para los botones de paginación
-        const filas = Array.from(tabla.rows); // Convierte las filas de la tabla en un array
-        const filasPorPagina = 6; // Cuántas filas mostrar por página
-        let paginaActual = 1; // Página actual
+document.addEventListener('DOMContentLoaded', () => {
+    const inputBusqueda  = document.getElementById('buscadorUsuarios');
+    const filtroTipo     = document.getElementById('filtroTipo');
+    const tabla          = document.getElementById('tablaUsuarios').getElementsByTagName('tbody')[0];
+    const paginacion     = document.getElementById('paginacionTabla');
+    const filas          = Array.from(tabla.rows);
+    const filasPorPagina = 6;
+    let   paginaActual   = 1;
 
-        // Función para mostrar la tabla según búsqueda y paginación
-        const renderTabla = () => {
-            const valor = inputBusqueda.value.toLowerCase().trim(); // Texto de búsqueda en minúsculas
-            const tipo = filtroTipo.value; // Tipo de filtro seleccionado
+    const renderTabla = () => {
+        const valor = inputBusqueda.value.toLowerCase().trim();
+        const tipo  = filtroTipo.value;
 
-            // Filtrar las filas según lo que se escribió y el tipo seleccionado
-            const filtradas = filas.filter(fila => {
-                const celdas = fila.cells;
-                const [codigo, nombre, correo, telefono, rol] = [
-                    celdas[2].textContent.toLowerCase(), // Numero de Documento
-                    celdas[3].textContent.toLowerCase(), // Nombre Completo
-                    celdas[4].textContent.toLowerCase(), // Correo
-                    celdas[5].textContent.toLowerCase(), // Teléfono
-                    celdas[6].textContent.toLowerCase(), // Rol
-                ];
-
-                // Aplica el filtro según el tipo elegido
-                switch (tipo) {
-                    case 'codigo':
-                        return codigo.includes(valor);
-                    case 'nombre':
-                        return nombre.includes(valor);
-                    case 'correo':
-                        return correo.includes(valor);
-                    case 'telefono':
-                        return telefono.includes(valor);
-                    case 'rol':
-                        return rol.includes(valor);
-                    default:
-                        return true;
-                }
-            });
-            
-            // Calcular paginación
-            const totalPaginas = Math.ceil(filtradas.length / filasPorPagina);
-            const inicio = (paginaActual - 1) * filasPorPagina;
-            const fin = inicio + filasPorPagina;
-
-            // Ocultar todas las filas
-            filas.forEach(fila => fila.style.display = 'none');
-
-            // Mostrar solo las filas filtradas que pertenecen a la página actual
-            filtradas.slice(inicio, fin).forEach(fila => fila.style.display = '');
-
-            // Mostar mensaje si no hay resultados
-            const mensajeNoResultadosId = 'mensaje-no-resultados';
-            let mensajeNoResultados = document.getElementById(mensajeNoResultadosId);
-
-            if (filtradas.length === 0) {
-                if (!mensajeNoResultados) {
-                    mensajeNoResultados = document.createElement('tr');
-                    mensajeNoResultados.id = mensajeNoResultadosId;
-                    mensajeNoResultados.innerHTML = `
-                        <td colspan="9" class="text-center text-danger fw-bold py-3">
-                            No se encontraron resultados.
-                        </td>
-                    `;
-                    tabla.appendChild(mensajeNoResultados);
-                }
-            } else {
-                const existente = document.getElementById(mensajeNoResultadosId);
-                if (existente) {
-                    existente.remove();
-                }
+        const filtradas = filas.filter(fila => {
+            const celdas   = fila.cells;
+            const codigo   = celdas[2]?.textContent.toLowerCase() ?? '';
+            const nombre   = celdas[3]?.textContent.toLowerCase() ?? '';
+            const correo   = celdas[4]?.textContent.toLowerCase() ?? '';
+            const telefono = celdas[5]?.textContent.toLowerCase() ?? '';
+            const rol      = celdas[6]?.textContent.toLowerCase() ?? '';
+            switch (tipo) {
+                case 'codigo':   return codigo.includes(valor);
+                case 'nombre':   return nombre.includes(valor);
+                case 'correo':   return correo.includes(valor);
+                case 'telefono': return telefono.includes(valor);
+                case 'rol':      return rol.includes(valor);
+                default:         return true;
             }
-            // Crear botones de paginación
-            renderPaginacion(totalPaginas);
-        };
+        });
 
-        // Función para crear y mostrar los botones de paginación
-        const renderPaginacion = (totalPaginas) => {
-            paginacion.innerHTML = ''; // Limpiar paginación anterior
+        const totalPaginas = Math.ceil(filtradas.length / filasPorPagina);
+        const inicio = (paginaActual - 1) * filasPorPagina;
+        const fin    = inicio + filasPorPagina;
 
-            // No mostrar nada si solo hay una página
-            if (totalPaginas <= 1) return;
+        filas.forEach(f => f.style.display = 'none');
+        filtradas.slice(inicio, fin).forEach(f => f.style.display = '');
 
-            // Función interna para crear cada botón
-            const crearItem = (label, pagina, disabled = false, active = false) => {
-                const li = document.createElement('li');
-                li.className = `page-item${disabled ? ' disabled' : ''}${active ? ' active' : ''}`;
+        // Mensaje sin resultados
+        const msgId = 'msg-no-resultados';
+        document.getElementById(msgId)?.remove();
+        if (filtradas.length === 0) {
+            const tr = document.createElement('tr');
+            tr.id = msgId;
+            tr.innerHTML = `<td colspan="9" style="color:#94a3b8;padding:2rem;text-align:center;">No se encontraron resultados.</td>`;
+            tabla.appendChild(tr);
+        }
 
-                const a = document.createElement('a');
-                a.className = 'page-link';
-                a.href = '#';
-                a.innerHTML = label;
+        renderPaginacion(totalPaginas);
+    };
 
-                //Cambio de color Números y flechas en verde
-                if (!isNaN(label) || label === '&laquo;' || label === '&raquo;') {
-                    a.classList.add('text-success');
-                }
-                // Activo: fondo y borde verde, texto blanco
-                if (active) {
-                    a.classList.add('bg-success', 'text-white', 'border-success');
-                }
+    const renderPaginacion = totalPaginas => {
+        paginacion.innerHTML = '';
+        if (totalPaginas <= 1) return;
 
-                a.onclick = e => {
-                    e.preventDefault();
-                    if (!disabled && pagina !== paginaActual) {
-                        paginaActual = pagina;
-                        renderTabla(); // Recargar la tabla
-                    }
-                };
-
-                li.appendChild(a);
-                return li;
+        const crearItem = (label, pagina, disabled = false, active = false) => {
+            const li = document.createElement('li');
+            li.className = `page-item${disabled ? ' disabled' : ''}${active ? ' active' : ''}`;
+            const a = document.createElement('a');
+            a.className = 'page-link'; a.href = '#'; a.innerHTML = label;
+            a.onclick = e => {
+                e.preventDefault();
+                if (!disabled && pagina !== paginaActual) { paginaActual = pagina; renderTabla(); }
             };
-
-            // Botón de "anterior"
-            paginacion.appendChild(crearItem('&laquo;', paginaActual - 1, paginaActual === 1));
-
-            // Botones numéricos
-            for (let i = 1; i <= totalPaginas; i++) {
-                paginacion.appendChild(crearItem(i, i, false, paginaActual === i));
-            }
-
-            // Botón de "siguiente"
-            paginacion.appendChild(crearItem('&raquo;', paginaActual + 1, paginaActual === totalPaginas));
+            li.appendChild(a); return li;
         };
 
-        // Eventos para actualizar tabla cuando se escribe o cambia el filtro
-        inputBusqueda.addEventListener('input', () => {
-            paginaActual = 1;
-            renderTabla();
-        });
+        paginacion.appendChild(crearItem('&laquo;', paginaActual - 1, paginaActual === 1));
+        for (let i = 1; i <= totalPaginas; i++)
+            paginacion.appendChild(crearItem(i, i, false, paginaActual === i));
+        paginacion.appendChild(crearItem('&raquo;', paginaActual + 1, paginaActual === totalPaginas));
+    };
 
-        filtroTipo.addEventListener('change', () => {
-            paginaActual = 1;
-            renderTabla();
-        });
-
-        // Mostrar la tabla al cargar la página
-        renderTabla();
-    });
+    inputBusqueda.addEventListener('input',  () => { paginaActual = 1; renderTabla(); });
+    filtroTipo.addEventListener('change',    () => { paginaActual = 1; renderTabla(); });
+    renderTabla();
+});
 </script>
