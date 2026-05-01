@@ -42,7 +42,7 @@ Este proyecto está configurado para entorno local (XAMPP o similar).
 <img width="1907" height="970" alt="image" src="https://github.com/user-attachments/assets/64b4a9ae-f3b6-4175-88ab-d014b5463424" />
 <img width="1900" height="967" alt="image" src="https://github.com/user-attachments/assets/d36fbc23-3712-4427-a096-7851ad48e46c" />
 <img width="1559" height="707" alt="image" src="https://github.com/user-attachments/assets/e9d55bd0-3741-47f6-bf70-ccedf3905139" />
-<img width="1442" height="972" alt="image" src="https://github.com/user-attachments/assets/7d124b8f-5fd4-4767-9c68-18c8ccc2b131" />
+<img width="1449" height="962" alt="image" src="https://github.com/user-attachments/assets/97403951-5e95-402d-bb50-fe19f32de83a" />
 <img width="1737" height="975" alt="image" src="https://github.com/user-attachments/assets/68aa8245-08ba-47b6-98a2-b02f1e8af417" />
 
 
